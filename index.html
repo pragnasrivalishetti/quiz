@@ -1,33 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML CSS JavaScript Quiz</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Interview Quiz</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="quiz-container">
 
-    <div class="quiz-box">
+    <h1>🚀 Frontend Quiz</h1>
 
-        <h1>Frontend Interview Quiz</h1>
+    <div id="questionNumber"></div>
 
-        <div class="progress">
-            Question <span id="current">1</span> of <span id="total">5</span>
-        </div>
+    <h2 id="question"></h2>
 
-        <div id="question" class="question"></div>
+    <div id="options"></div>
 
-        <div id="options" class="options"></div>
+    <button id="nextBtn">Next Question</button>
 
-        <button id="nextBtn">Next Question</button>
-
-        <h2 id="score"></h2>
-
-    </div>
+    <div id="result"></div>
 
 </div>
 
