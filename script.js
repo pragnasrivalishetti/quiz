@@ -1,137 +1,155 @@
-const quiz = [
-
-{
-question:"Which HTML tag is used to create a hyperlink?",
-options:["<a>","<link>","<href>","<url>"],
-answer:"<a>"
-},
-
-{
-question:"Which CSS property makes a Flexbox container?",
-options:["display:flex","flexbox:true","position:flex","layout:flex"],
-answer:"display:flex"
-},
-
-{
-question:"What is the output of typeof null in JavaScript?",
-options:["null","object","undefined","string"],
-answer:"object"
-},
-
-{
-question:"Which JavaScript method selects an element by ID?",
-options:[
-"querySelector()",
-"getElementById()",
-"getElementsByTagName()",
-"getElementsByClassName()"
-],
-answer:"getElementById()"
-},
-
-{
-question:"Which keyword cannot be reassigned after declaration?",
-options:[
-"var",
-"let",
-"const",
-"static"
-],
-answer:"const"
-}
-
+const questions = [
+    {
+        question: "Which HTML tag is used to create a hyperlink?",
+        answers: [
+            { text: "<link>", correct: false },
+            { text: "<a>", correct: true },
+            { text: "<href>", correct: false },
+            { text: "<url>", correct: false }
+        ]
+    },
+    {
+        question: "Which CSS property changes the text color?",
+        answers: [
+            { text: "font-color", correct: false },
+            { text: "text-color", correct: false },
+            { text: "color", correct: true },
+            { text: "background-color", correct: false }
+        ]
+    },
+    {
+        question: "Which keyword is used to declare a constant in JavaScript?",
+        answers: [
+            { text: "var", correct: false },
+            { text: "let", correct: false },
+            { text: "const", correct: true },
+            { text: "constant", correct: false }
+        ]
+    },
+    {
+        question: "Which CSS property is used to make text bold?",
+        answers: [
+            { text: "font-style", correct: false },
+            { text: "font-weight", correct: true },
+            { text: "text-style", correct: false },
+            { text: "text-weight", correct: false }
+        ]
+    },
+    {
+        question: "Which method is used to print output in the browser console?",
+        answers: [
+            { text: "print()", correct: false },
+            { text: "console.log()", correct: true },
+            { text: "document.print()", correct: false },
+            { text: "log()", correct: false }
+        ]
+    }
 ];
 
-let currentQuestion = 0;
+const startScreen = document.getElementById("start-screen");
+const quizScreen = document.getElementById("quiz-screen");
+const resultScreen = document.getElementById("result-screen");
+
+const startBtn = document.getElementById("start-btn");
+const nextBtn = document.getElementById("next-btn");
+const restartBtn = document.getElementById("restart-btn");
+
+const questionElement = document.getElementById("question");
+const questionNumber = document.getElementById("question-number");
+const answerButtons = document.getElementById("answer-buttons");
+const scoreDisplay = document.getElementById("score-display");
+const finalScore = document.getElementById("final-score");
+const resultMessage = document.getElementById("result-message");
+
+let currentQuestionIndex = 0;
 let score = 0;
 
-const question = document.getElementById("question");
-const options = document.getElementById("options");
-const nextBtn = document.getElementById("nextBtn");
-const result = document.getElementById("result");
-const questionNumber = document.getElementById("questionNumber");
+startBtn.addEventListener("click", startQuiz);
+nextBtn.addEventListener("click", nextQuestion);
+restartBtn.addEventListener("click", startQuiz);
 
-function loadQuestion(){
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
 
-questionNumber.innerHTML =
-`Question ${currentQuestion+1} of ${quiz.length}`;
+    startScreen.classList.add("hide");
+    resultScreen.classList.add("hide");
+    quizScreen.classList.remove("hide");
 
-question.innerHTML = quiz[currentQuestion].question;
-
-options.innerHTML="";
-
-quiz[currentQuestion].options.forEach(option=>{
-
-options.innerHTML +=
-`
-<label class="option">
-<input type="radio" name="answer" value="${option}">
-${option}
-</label>
-`;
-
-});
-
+    scoreDisplay.innerText = "Score: 0";
+    showQuestion();
 }
 
-loadQuestion();
+function showQuestion() {
+    resetState();
 
-nextBtn.onclick=function(){
+    const currentQuestion = questions[currentQuestionIndex];
 
-const selected =
-document.querySelector('input[name="answer"]:checked');
+    questionNumber.innerText =
+        `Question ${currentQuestionIndex + 1} of ${questions.length}`;
 
-if(!selected){
+    questionElement.innerText = currentQuestion.question;
 
-alert("Please select an answer!");
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement("button");
 
-return;
+        button.innerText = answer.text;
+        button.classList.add("answer-btn");
 
+        button.addEventListener("click", function () {
+            selectAnswer(button, answer.correct);
+        });
+
+        answerButtons.appendChild(button);
+    });
 }
 
-if(selected.value===quiz[currentQuestion].answer){
+function selectAnswer(selectedButton, isCorrect) {
+    if (isCorrect) {
+        selectedButton.classList.add("correct");
+        score++;
+        scoreDisplay.innerText = `Score: ${score}`;
+    } else {
+        selectedButton.classList.add("wrong");
+    }
 
-score++;
+    Array.from(answerButtons.children).forEach((button, index) => {
+        if (questions[currentQuestionIndex].answers[index].correct) {
+            button.classList.add("correct");
+        }
 
+        button.disabled = true;
+    });
+
+    nextBtn.classList.remove("hide");
 }
 
-currentQuestion++;
-
-if(currentQuestion<quiz.length){
-
-loadQuestion();
-
-}
-else{
-
-questionNumber.style.display="none";
-
-question.style.display="none";
-
-options.style.display="none";
-
-nextBtn.style.display="none";
-
-result.innerHTML=
-`
-<h2>🎉 Quiz Completed!</h2>
-
-<p>Your Score: ${score} / ${quiz.length}</p>
-
-<p>${
-score==5
-?"Excellent! ⭐⭐⭐⭐⭐"
-:score>=4
-?"Very Good! 👍"
-:score>=3
-?"Good Job 😊"
-:"Keep Practicing 💪"
-}</p>
-
-<button onclick="location.reload()">Restart Quiz</button>
-
-`;
-
+function resetState() {
+    nextBtn.classList.add("hide");
+    answerButtons.innerHTML = "";
 }
 
+function nextQuestion() {
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    quizScreen.classList.add("hide");
+    resultScreen.classList.remove("hide");
+
+    finalScore.innerText = `Your Score: ${score} / ${questions.length}`;
+
+    if (score === 5) {
+        resultMessage.innerText = "Excellent! Perfect Score!";
+    } else if (score >= 3) {
+        resultMessage.innerText = "Good Job! Keep Practicing!";
+    } else {
+        resultMessage.innerText = "Keep Learning and Try Again!";
+    }
 }
