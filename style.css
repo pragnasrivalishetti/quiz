@@ -1,102 +1,103 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-background:linear-gradient(135deg,#4e54c8,#8f94fb);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-.quiz-container{
-
-width:650px;
-background:white;
-padding:30px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-
+.quiz-container {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
-h1{
-
-text-align:center;
-margin-bottom:25px;
-color:#333;
-
+h1 {
+    color: #333;
+    margin-bottom: 15px;
 }
 
-#questionNumber{
-
-font-size:18px;
-color:#555;
-margin-bottom:10px;
-
+h2 {
+    color: #333;
+    margin: 25px 0;
 }
 
-#question{
-
-margin-bottom:20px;
-color:#222;
-
+p {
+    color: #666;
+    margin-bottom: 25px;
 }
 
-.option{
-
-display:block;
-width:100%;
-background:#f2f2f2;
-padding:15px;
-margin:10px 0;
-border-radius:8px;
-cursor:pointer;
-transition:.3s;
-font-size:17px;
-
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-.option:hover{
-
-background:#d6e4ff;
-
+#start-btn,
+#next-btn,
+#restart-btn {
+    background: #667eea;
+    color: white;
 }
 
-.option input{
-
-margin-right:10px;
-
+#start-btn:hover,
+#next-btn:hover,
+#restart-btn:hover {
+    background: #4f5fd5;
 }
 
-button{
-
-width:100%;
-padding:15px;
-margin-top:20px;
-background:#4e54c8;
-color:white;
-border:none;
-font-size:18px;
-border-radius:8px;
-cursor:pointer;
-
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    color: #667eea;
+    font-weight: bold;
 }
 
-button:hover{
-
-background:#303f9f;
-
+#answer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-#result{
+.answer-btn {
+    width: 100%;
+    background: #f1f1f1;
+    color: #333;
+    text-align: left;
+    border: 2px solid transparent;
+}
 
-margin-top:20px;
-font-size:22px;
-text-align:center;
-font-weight:bold;
+.answer-btn:hover:not(:disabled) {
+    background: #ddd;
+}
 
+.correct {
+    background: #4caf50 !important;
+    color: white !important;
+}
+
+.wrong {
+    background: #f44336 !important;
+    color: white !important;
+}
+
+#next-btn {
+    margin-top: 25px;
+}
+
+.hide {
+    display: none;
 }
