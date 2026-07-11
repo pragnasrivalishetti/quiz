@@ -1,50 +1,33 @@
 const questions = [
     {
         question: "Which HTML tag is used to create a hyperlink?",
-        answers: [
-            { text: "<link>", correct: false },
-            { text: "<a>", correct: true },
-            { text: "<href>", correct: false },
-            { text: "<url>", correct: false }
-        ]
+        answers: ["<link>", "<a>", "<href>", "<url>"],
+        correct: 1
     },
     {
         question: "Which CSS property changes the text color?",
-        answers: [
-            { text: "font-color", correct: false },
-            { text: "text-color", correct: false },
-            { text: "color", correct: true },
-            { text: "background-color", correct: false }
-        ]
+        answers: ["font-color", "text-color", "color", "background-color"],
+        correct: 2
     },
     {
-        question: "Which keyword is used to declare a constant in JavaScript?",
-        answers: [
-            { text: "var", correct: false },
-            { text: "let", correct: false },
-            { text: "const", correct: true },
-            { text: "constant", correct: false }
-        ]
+        question: "Which keyword declares a constant in JavaScript?",
+        answers: ["var", "let", "const", "constant"],
+        correct: 2
     },
     {
-        question: "Which CSS property is used to make text bold?",
-        answers: [
-            { text: "font-style", correct: false },
-            { text: "font-weight", correct: true },
-            { text: "text-style", correct: false },
-            { text: "text-weight", correct: false }
-        ]
+        question: "Which CSS property makes text bold?",
+        answers: ["font-style", "font-weight", "text-style", "text-weight"],
+        correct: 1
     },
     {
-        question: "Which method is used to print output in the browser console?",
-        answers: [
-            { text: "print()", correct: false },
-            { text: "console.log()", correct: true },
-            { text: "document.print()", correct: false },
-            { text: "log()", correct: false }
-        ]
+        question: "Which method prints output in the browser console?",
+        answers: ["print()", "console.log()", "document.print()", "log()"],
+        correct: 1
     }
 ];
+
+let currentQuestion = 0;
+let userAnswers = [];
 
 const startScreen = document.getElementById("start-screen");
 const quizScreen = document.getElementById("quiz-screen");
@@ -57,82 +40,65 @@ const restartBtn = document.getElementById("restart-btn");
 const questionElement = document.getElementById("question");
 const questionNumber = document.getElementById("question-number");
 const answerButtons = document.getElementById("answer-buttons");
-const scoreDisplay = document.getElementById("score-display");
-const finalScore = document.getElementById("final-score");
-const resultMessage = document.getElementById("result-message");
-
-let currentQuestionIndex = 0;
-let score = 0;
 
 startBtn.addEventListener("click", startQuiz);
 nextBtn.addEventListener("click", nextQuestion);
 restartBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
+    currentQuestion = 0;
+    userAnswers = [];
 
     startScreen.classList.add("hide");
     resultScreen.classList.add("hide");
     quizScreen.classList.remove("hide");
 
-    scoreDisplay.innerText = "Score: 0";
     showQuestion();
 }
 
 function showQuestion() {
-    resetState();
+    nextBtn.classList.add("hide");
+    answerButtons.innerHTML = "";
 
-    const currentQuestion = questions[currentQuestionIndex];
+    const q = questions[currentQuestion];
 
     questionNumber.innerText =
-        `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+        `Question ${currentQuestion + 1} of ${questions.length}`;
 
-    questionElement.innerText = currentQuestion.question;
+    questionElement.innerText = q.question;
 
-    currentQuestion.answers.forEach(answer => {
+    q.answers.forEach((answer, index) => {
         const button = document.createElement("button");
 
-        button.innerText = answer.text;
+        button.innerText = answer;
         button.classList.add("answer-btn");
 
-        button.addEventListener("click", function () {
-            selectAnswer(button, answer.correct);
+        button.addEventListener("click", () => {
+            selectAnswer(index, button);
         });
 
         answerButtons.appendChild(button);
     });
 }
 
-function selectAnswer(selectedButton, isCorrect) {
-    if (isCorrect) {
-        selectedButton.classList.add("correct");
-        score++;
-        scoreDisplay.innerText = `Score: ${score}`;
-    } else {
-        selectedButton.classList.add("wrong");
-    }
+function selectAnswer(index, selectedButton) {
+    userAnswers[currentQuestion] = index;
 
-    Array.from(answerButtons.children).forEach((button, index) => {
-        if (questions[currentQuestionIndex].answers[index].correct) {
-            button.classList.add("correct");
-        }
+    const buttons = document.querySelectorAll(".answer-btn");
 
-        button.disabled = true;
+    buttons.forEach(button => {
+        button.classList.remove("selected");
     });
+
+    selectedButton.classList.add("selected");
 
     nextBtn.classList.remove("hide");
 }
 
-function resetState() {
-    nextBtn.classList.add("hide");
-    answerButtons.innerHTML = "";
-}
-
 function nextQuestion() {
-    currentQuestionIndex++;
+    currentQuestion++;
 
-    if (currentQuestionIndex < questions.length) {
+    if (currentQuestion < questions.length) {
         showQuestion();
     } else {
         showResult();
@@ -143,13 +109,44 @@ function showResult() {
     quizScreen.classList.add("hide");
     resultScreen.classList.remove("hide");
 
-    finalScore.innerText = `Your Score: ${score} / ${questions.length}`;
+    let score = 0;
+    let reviewHTML = "";
 
-    if (score === 5) {
-        resultMessage.innerText = "Excellent! Perfect Score!";
-    } else if (score >= 3) {
-        resultMessage.innerText = "Good Job! Keep Practicing!";
-    } else {
-        resultMessage.innerText = "Keep Learning and Try Again!";
-    }
+    questions.forEach((q, index) => {
+        const userAnswer = userAnswers[index];
+        const isCorrect = userAnswer === q.correct;
+
+        if (isCorrect) {
+            score++;
+        }
+
+        reviewHTML += `
+            <div class="review-item ${isCorrect ? "right" : "wrong"}">
+                <h3>${index + 1}. ${q.question}</h3>
+
+                <p>
+                    Your Answer:
+                    <span class="${isCorrect ? "correct-text" : "wrong-text"}">
+                        ${q.answers[userAnswer]}
+                    </span>
+                </p>
+
+                ${
+                    isCorrect
+                    ? `<p class="correct-text">✓ Right Answer</p>`
+                    : `
+                        <p class="wrong-text">✗ Wrong Answer</p>
+                        <p class="correct-text">
+                            Correct Answer: ${q.answers[q.correct]}
+                        </p>
+                      `
+                }
+            </div>
+        `;
+    });
+
+    document.getElementById("final-score").innerText =
+        `Your Score: ${score} / ${questions.length}`;
+
+    document.getElementById("review-container").innerHTML = reviewHTML;
 }
