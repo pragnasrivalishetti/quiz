@@ -16,54 +16,132 @@ const questions = [
     },
     {
         question: "Which CSS property is used to make text bold?",
-        answers: ["font-style", "font-weight", "text-style", "text-weight"],
+        answers: [
+            "font-style",
+            "font-weight",
+            "text-style",
+            "text-weight"
+        ],
         correct: 1
     },
     {
         question: "Which method prints output in the browser console?",
-        answers: ["print()", "console.log()", "document.print()", "log()"],
+        answers: [
+            "print()",
+            "console.log()",
+            "document.print()",
+            "log()"
+        ],
         correct: 1
     }
 ];
 
+
+/* VARIABLES */
+
 let currentQuestion = 0;
-let userAnswers = new Array(questions.length).fill(null);
 
-const startScreen = document.getElementById("start-screen");
-const quizScreen = document.getElementById("quiz-screen");
-const resultScreen = document.getElementById("result-screen");
-const endScreen = document.getElementById("end-screen");
+let userAnswers =
+    new Array(questions.length).fill(null);
 
-const startBtn = document.getElementById("start-btn");
-const previousBtn = document.getElementById("previous-btn");
-const nextBtn = document.getElementById("next-btn");
-const submitBtn = document.getElementById("submit-btn");
-const endBtn = document.getElementById("end-btn");
 
-const questionElement = document.getElementById("question");
-const questionNumber = document.getElementById("question-number");
-const answeredCount = document.getElementById("answered-count");
-const answerButtons = document.getElementById("answer-buttons");
+/* GET HTML ELEMENTS */
 
-startBtn.addEventListener("click", startQuiz);
-previousBtn.addEventListener("click", previousQuestion);
-nextBtn.addEventListener("click", saveAndNext);
-submitBtn.addEventListener("click", submitQuiz);
-endBtn.addEventListener("click", endQuiz);
+const startScreen =
+    document.getElementById("start-screen");
 
+const quizScreen =
+    document.getElementById("quiz-screen");
+
+const resultScreen =
+    document.getElementById("result-screen");
+
+const startBtn =
+    document.getElementById("start-btn");
+
+const previousBtn =
+    document.getElementById("previous-btn");
+
+const nextBtn =
+    document.getElementById("next-btn");
+
+const submitBtn =
+    document.getElementById("submit-btn");
+
+const viewAnswersBtn =
+    document.getElementById("view-answers-btn");
+
+const questionElement =
+    document.getElementById("question");
+
+const questionNumber =
+    document.getElementById("question-number");
+
+const answeredCount =
+    document.getElementById("answered-count");
+
+const answerButtons =
+    document.getElementById("answer-buttons");
+
+const finalScore =
+    document.getElementById("final-score");
+
+const reward =
+    document.getElementById("reward");
+
+const reviewContainer =
+    document.getElementById("review-container");
+
+
+/* EVENT LISTENERS */
+
+startBtn.addEventListener(
+    "click",
+    startQuiz
+);
+
+previousBtn.addEventListener(
+    "click",
+    previousQuestion
+);
+
+nextBtn.addEventListener(
+    "click",
+    saveAndNext
+);
+
+submitBtn.addEventListener(
+    "click",
+    submitQuiz
+);
+
+viewAnswersBtn.addEventListener(
+    "click",
+    viewAnswers
+);
+
+
+/* START QUIZ */
 
 function startQuiz() {
+
     startScreen.classList.add("hide");
+
     quizScreen.classList.remove("hide");
 
     currentQuestion = 0;
-    userAnswers = new Array(questions.length).fill(null);
+
+    userAnswers =
+        new Array(questions.length).fill(null);
 
     showQuestion();
 }
 
 
+/* SHOW QUESTION */
+
 function showQuestion() {
+
     answerButtons.innerHTML = "";
 
     const q = questions[currentQuestion];
@@ -71,163 +149,326 @@ function showQuestion() {
     questionNumber.innerText =
         `Question ${currentQuestion + 1} of ${questions.length}`;
 
-    const answered = userAnswers.filter(answer => answer !== null).length;
+    updateAnsweredCount();
 
-    answeredCount.innerText =
-        `Answered: ${answered}/${questions.length}`;
+    questionElement.innerText =
+        q.question;
 
-    questionElement.innerText = q.question;
 
-    q.answers.forEach((answer, index) => {
+    q.answers.forEach(
+        (answer, index) => {
 
-        const button = document.createElement("button");
+            const button =
+                document.createElement("button");
 
-        button.innerText = answer;
-        button.classList.add("answer-btn");
+            button.innerText = answer;
 
-        // Show previously selected answer
-        if (userAnswers[currentQuestion] === index) {
-            button.classList.add("selected");
+            button.classList.add(
+                "answer-btn"
+            );
+
+
+            /* Show saved answer */
+
+            if (
+                userAnswers[currentQuestion]
+                === index
+            ) {
+
+                button.classList.add(
+                    "selected"
+                );
+            }
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    selectAnswer(index);
+
+                }
+            );
+
+
+            answerButtons.appendChild(
+                button
+            );
         }
+    );
 
-        button.addEventListener("click", function () {
-            selectAnswer(index);
-        });
 
-        answerButtons.appendChild(button);
-    });
+    /* Disable Previous on Question 1 */
 
-    // Disable Previous on first question
-    previousBtn.disabled = currentQuestion === 0;
+    previousBtn.disabled =
+        currentQuestion === 0;
 
-    // Change button text on last question
-    if (currentQuestion === questions.length - 1) {
+
+    /* Last Question */
+
+    if (
+        currentQuestion ===
+        questions.length - 1
+    ) {
+
         nextBtn.innerText = "Save";
+
     } else {
-        nextBtn.innerText = "Save & Next";
+
+        nextBtn.innerText =
+            "Save & Next";
     }
 }
 
 
+/* SELECT ANSWER */
+
 function selectAnswer(index) {
 
-    // Save selected answer
-    userAnswers[currentQuestion] = index;
+    userAnswers[currentQuestion] =
+        index;
 
-    const buttons = document.querySelectorAll(".answer-btn");
 
-    buttons.forEach(button => {
-        button.classList.remove("selected");
-    });
+    const buttons =
+        document.querySelectorAll(
+            ".answer-btn"
+        );
 
-    buttons[index].classList.add("selected");
 
-    // Update answered count
-    const answered = userAnswers.filter(answer => answer !== null).length;
+    buttons.forEach(
+        button => {
+
+            button.classList.remove(
+                "selected"
+            );
+        }
+    );
+
+
+    buttons[index].classList.add(
+        "selected"
+    );
+
+
+    updateAnsweredCount();
+}
+
+
+/* UPDATE ANSWERED COUNT */
+
+function updateAnsweredCount() {
+
+    const answered =
+        userAnswers.filter(
+            answer => answer !== null
+        ).length;
+
 
     answeredCount.innerText =
         `Answered: ${answered}/${questions.length}`;
 }
 
 
+/* SAVE AND NEXT */
+
 function saveAndNext() {
 
-    if (currentQuestion < questions.length - 1) {
+    if (
+        currentQuestion <
+        questions.length - 1
+    ) {
+
         currentQuestion++;
+
         showQuestion();
     }
 }
 
+
+/* PREVIOUS QUESTION */
 
 function previousQuestion() {
 
     if (currentQuestion > 0) {
+
         currentQuestion--;
+
         showQuestion();
     }
 }
 
 
+/* SUBMIT QUIZ */
+
 function submitQuiz() {
 
     let score = 0;
+
     let reviewHTML = "";
 
-    questions.forEach((q, index) => {
 
-        const userAnswer = userAnswers[index];
+    questions.forEach(
+        (q, index) => {
 
-        if (userAnswer === q.correct) {
-            score++;
+            const userAnswer =
+                userAnswers[index];
+
+
+            /* CALCULATE SCORE */
+
+            if (
+                userAnswer === q.correct
+            ) {
+
+                score++;
+            }
+
+
+            /* CREATE ANSWER REVIEW */
+
+            if (userAnswer === null) {
+
+                reviewHTML += `
+                    <div class="review-item">
+
+                        <h3>
+                            ${index + 1}.
+                            ${q.question}
+                        </h3>
+
+                        <p class="wrong-answer">
+                            ✗ Not Answered
+                        </p>
+
+                        <p class="correct-answer">
+                            ✓ Correct Answer:
+                            ${q.answers[q.correct]}
+                        </p>
+
+                    </div>
+                `;
+
+            } else if (
+                userAnswer === q.correct
+            ) {
+
+                reviewHTML += `
+                    <div class="review-item">
+
+                        <h3>
+                            ${index + 1}.
+                            ${q.question}
+                        </h3>
+
+                        <p class="correct-answer">
+                            ✓ Your Answer:
+                            ${q.answers[userAnswer]}
+                        </p>
+
+                    </div>
+                `;
+
+            } else {
+
+                reviewHTML += `
+                    <div class="review-item">
+
+                        <h3>
+                            ${index + 1}.
+                            ${q.question}
+                        </h3>
+
+                        <p class="wrong-answer">
+                            ✗ Your Answer:
+                            ${q.answers[userAnswer]}
+                        </p>
+
+                        <p class="correct-answer">
+                            ✓ Correct Answer:
+                            ${q.answers[q.correct]}
+                        </p>
+
+                    </div>
+                `;
+            }
         }
+    );
 
-        reviewHTML += `
-            <div class="review-item">
 
-                <h3>
-                    ${index + 1}. ${q.question}
-                </h3>
-
-                ${
-                    userAnswer === null
-                    ? `<p class="wrong-answer">
-                        Not Answered
-                       </p>`
-
-                    : userAnswer === q.correct
-                    ? `<p class="correct-answer">
-                        ✓ Your Answer: ${q.answers[userAnswer]}
-                       </p>`
-
-                    : `
-                       <p class="wrong-answer">
-                           ✗ Your Answer: ${q.answers[userAnswer]}
-                       </p>
-
-                       <p class="correct-answer">
-                           ✓ Correct Answer: ${q.answers[q.correct]}
-                       </p>
-                      `
-                }
-
-            </div>
-        `;
-    });
+    /* HIDE QUIZ */
 
     quizScreen.classList.add("hide");
-    resultScreen.classList.remove("hide");
 
-    // Display score
-    document.getElementById("final-score").innerText =
+
+    /* SHOW RESULT */
+
+    resultScreen.classList.remove(
+        "hide"
+    );
+
+
+    /* DISPLAY SCORE */
+
+    finalScore.innerText =
         `Your Score: ${score}/${questions.length}`;
 
-    // Reward based on score
-    let rewardMessage = "";
+
+    /* REWARD BASED ON SCORE */
 
     if (score === 5) {
-        rewardMessage = "🏆 Excellent! You are a Web Development Champion!";
-    }
-    else if (score === 4) {
-        rewardMessage = "🥇 Very Good! Great Performance!";
-    }
-    else if (score === 3) {
-        rewardMessage = "🥈 Good Job! Keep Improving!";
-    }
-    else if (score === 2) {
-        rewardMessage = "🥉 Nice Try! Keep Practicing!";
-    }
-    else {
-        rewardMessage = "📚 Keep Learning! You Can Do Better!";
+
+        reward.innerText =
+            "🏆 Excellent! Perfect Score!";
+
+    } else if (score === 4) {
+
+        reward.innerText =
+            "🥇 Very Good! Great Performance!";
+
+    } else if (score === 3) {
+
+        reward.innerText =
+            "🥈 Good Job! Keep Improving!";
+
+    } else if (score === 2) {
+
+        reward.innerText =
+            "🥉 Nice Try! Keep Practicing!";
+
+    } else {
+
+        reward.innerText =
+            "📚 Keep Learning! You Can Do Better!";
     }
 
-    document.getElementById("reward").innerText = rewardMessage;
 
-    document.getElementById("review-container").innerHTML = reviewHTML;
+    /* STORE REVIEW */
+
+    reviewContainer.innerHTML =
+        reviewHTML;
+
+
+    /* KEEP ANSWERS HIDDEN INITIALLY */
+
+    reviewContainer.classList.add(
+        "hide"
+    );
+
+    viewAnswersBtn.classList.remove(
+        "hide"
+    );
 }
 
 
-function endQuiz() {
+/* VIEW ANSWERS */
 
-    resultScreen.classList.add("hide");
-    endScreen.classList.remove("hide");
+function viewAnswers() {
+
+    reviewContainer.classList.remove(
+        "hide"
+    );
+
+    viewAnswersBtn.classList.add(
+        "hide"
+    );
 }
