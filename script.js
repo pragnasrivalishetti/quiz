@@ -4,13 +4,13 @@ const questions = [
 
     {
         question:
-            "Which HTML tag is used to create a hyperlink?",
+            "What does HTML stand for?",
 
         answers: [
-            "<link>",
-            "<a>",
-            "<href>",
-            "<url>"
+            "Home Text Markup Language",
+            "Hyper Tool Markup Language",
+            "High Text Machine Language",
+            "Hyper Text Markup Language"
         ],
 
         correct: 1
