@@ -17,6 +17,7 @@
         <button id="start-btn">Start Quiz</button>
     </div>
 
+
     <!-- QUIZ SCREEN -->
     <div id="quiz-screen" class="hide">
 
@@ -34,25 +35,44 @@
             <button id="next-btn">Save & Next</button>
         </div>
 
+        <!-- Submit button available throughout quiz -->
         <button id="submit-btn">Submit Quiz</button>
+
     </div>
 
-    <!-- RESULT SCREEN -->
+
+    <!-- SUBMITTED RESULT SCREEN -->
     <div id="result-screen" class="hide">
 
         <div class="success-icon">✓</div>
 
         <h1>Thank You!</h1>
 
-        <p>Your quiz has been completed successfully.</p>
+        <p class="success-message">
+            Your quiz has been completed successfully.
+        </p>
 
         <h2 id="final-score"></h2>
 
         <div id="reward"></div>
 
-        <button id="view-answers-btn">View Answers</button>
+        <button id="view-answers-btn">
+            View Answers
+        </button>
 
-        <div id="review-container" class="hide"></div>
+    </div>
+
+
+    <!-- ANSWER REVIEW SCREEN -->
+    <div id="answers-screen" class="hide">
+
+        <h1>Answer Review</h1>
+
+        <div id="review-container"></div>
+
+        <button id="back-result-btn">
+            Back to Result
+        </button>
 
     </div>
 
