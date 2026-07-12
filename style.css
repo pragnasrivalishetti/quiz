@@ -11,40 +11,46 @@ body {
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 20px;
+    padding: 25px;
 }
 
 .quiz-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 750px;
     background: white;
-    padding: 35px;
-    border-radius: 16px;
+    padding: 40px;
+    border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     text-align: center;
 }
 
 h1 {
-    margin-bottom: 15px;
     color: #333;
+    margin-bottom: 15px;
 }
 
 h2 {
-    margin: 25px 0;
     color: #333;
+    margin: 25px 0;
 }
 
 p {
     color: #666;
     margin-bottom: 20px;
+    font-size: 17px;
 }
+
+/* QUIZ HEADER */
 
 .quiz-header {
     display: flex;
     justify-content: space-between;
-    font-weight: bold;
     color: #667eea;
+    font-weight: bold;
+    font-size: 17px;
 }
+
+/* ANSWER BUTTONS */
 
 #answer-buttons {
     display: flex;
@@ -54,45 +60,62 @@ p {
 
 .answer-btn {
     width: 100%;
-    padding: 14px;
-    border: 2px solid #ddd;
+    padding: 15px;
     background: white;
     color: #333;
+    border: 2px solid #ddd;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     text-align: left;
 }
 
-/* Selected answer - only purple, no red or green */
+.answer-btn:hover {
+    border-color: #667eea;
+}
+
+/* Selected option is purple.
+   Correct/wrong answer is NOT shown during quiz. */
+
 .answer-btn.selected {
     background: #667eea;
     color: white;
     border-color: #667eea;
 }
 
-.navigation {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-}
+/* GENERAL BUTTON */
 
 button {
     border: none;
-    padding: 12px 22px;
+    padding: 12px 25px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
 }
 
-#start-btn,
-#next-btn {
+/* START BUTTON */
+
+#start-btn {
     background: #667eea;
     color: white;
+    margin-top: 10px;
+}
+
+/* NAVIGATION */
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
 }
 
 #previous-btn {
     background: #6c757d;
+    color: white;
+}
+
+#next-btn {
+    background: #667eea;
     color: white;
 }
 
@@ -101,48 +124,84 @@ button {
     cursor: not-allowed;
 }
 
+/* SUBMIT BUTTON */
+
 #submit-btn {
     width: 100%;
-    margin-top: 25px;
     background: #ff9800;
     color: white;
     font-weight: bold;
+    margin-top: 25px;
 }
 
-#end-btn {
-    margin-top: 25px;
-    background: #333;
-    color: white;
+#submit-btn:hover {
+    background: #e68900;
 }
+
+/* SUCCESS ICON */
 
 .success-icon {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
     background: #28a745;
     color: white;
-    font-size: 50px;
+    font-size: 70px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 20px;
+    margin: 10px auto 25px;
 }
+
+/* FINAL SCORE */
+
+#final-score {
+    color: #667eea;
+    font-size: 30px;
+    margin: 20px 0;
+}
+
+/* REWARD */
 
 #reward {
     background: #fff3cd;
-    padding: 20px;
+    padding: 18px;
     border-radius: 10px;
     margin: 20px 0;
     font-size: 20px;
     font-weight: bold;
+    color: #555;
+}
+
+/* VIEW ANSWERS */
+
+#view-answers-btn {
+    background: #667eea;
+    color: white;
+    margin-top: 10px;
+}
+
+#view-answers-btn:hover {
+    background: #5548c8;
+}
+
+/* ANSWER REVIEW */
+
+#review-container {
+    margin-top: 30px;
 }
 
 .review-item {
     text-align: left;
-    padding: 15px;
-    margin: 12px 0;
+    padding: 18px;
+    margin: 15px 0;
     background: #f5f5f5;
-    border-radius: 8px;
+    border-radius: 10px;
+}
+
+.review-item h3 {
+    margin-bottom: 12px;
+    color: #333;
 }
 
 .correct-answer {
@@ -154,6 +213,8 @@ button {
     color: red;
     font-weight: bold;
 }
+
+/* HIDE ELEMENT */
 
 .hide {
     display: none;
