@@ -1,43 +1,85 @@
+// QUIZ QUESTIONS
+
 const questions = [
+
     {
-        question: "Which HTML tag is used to create a hyperlink?",
-        answers: ["<link>", "<a>", "<href>", "<url>"],
+        question:
+            "Which HTML tag is used to create a hyperlink?",
+
+        answers: [
+            "<link>",
+            "<a>",
+            "<href>",
+            "<url>"
+        ],
+
         correct: 1
     },
+
+
     {
-        question: "Which CSS property changes the text color?",
-        answers: ["font-color", "text-color", "color", "background-color"],
+        question:
+            "Which CSS property changes the text color?",
+
+        answers: [
+            "font-color",
+            "text-color",
+            "color",
+            "background-color"
+        ],
+
         correct: 2
     },
+
+
     {
-        question: "Which keyword is used to declare a constant in JavaScript?",
-        answers: ["var", "let", "const", "constant"],
+        question:
+            "Which keyword is used to declare a constant in JavaScript?",
+
+        answers: [
+            "var",
+            "let",
+            "const",
+            "constant"
+        ],
+
         correct: 2
     },
+
+
     {
-        question: "Which CSS property is used to make text bold?",
+        question:
+            "Which CSS property is used to make text bold?",
+
         answers: [
             "font-style",
             "font-weight",
             "text-style",
             "text-weight"
         ],
+
         correct: 1
     },
+
+
     {
-        question: "Which method prints output in the browser console?",
+        question:
+            "Which method prints output in the browser console?",
+
         answers: [
             "print()",
             "console.log()",
             "document.print()",
             "log()"
         ],
+
         correct: 1
     }
+
 ];
 
 
-/* VARIABLES */
+// VARIABLES
 
 let currentQuestion = 0;
 
@@ -45,7 +87,7 @@ let userAnswers =
     new Array(questions.length).fill(null);
 
 
-/* GET HTML ELEMENTS */
+// GET HTML ELEMENTS
 
 const startScreen =
     document.getElementById("start-screen");
@@ -55,6 +97,10 @@ const quizScreen =
 
 const resultScreen =
     document.getElementById("result-screen");
+
+const answersScreen =
+    document.getElementById("answers-screen");
+
 
 const startBtn =
     document.getElementById("start-btn");
@@ -70,6 +116,10 @@ const submitBtn =
 
 const viewAnswersBtn =
     document.getElementById("view-answers-btn");
+
+const backResultBtn =
+    document.getElementById("back-result-btn");
+
 
 const questionElement =
     document.getElementById("question");
@@ -93,7 +143,7 @@ const reviewContainer =
     document.getElementById("review-container");
 
 
-/* EVENT LISTENERS */
+// EVENT LISTENERS
 
 startBtn.addEventListener(
     "click",
@@ -120,8 +170,13 @@ viewAnswersBtn.addEventListener(
     viewAnswers
 );
 
+backResultBtn.addEventListener(
+    "click",
+    backToResult
+);
 
-/* START QUIZ */
+
+// START QUIZ
 
 function startQuiz() {
 
@@ -138,18 +193,22 @@ function startQuiz() {
 }
 
 
-/* SHOW QUESTION */
+// SHOW QUESTION
 
 function showQuestion() {
 
     answerButtons.innerHTML = "";
 
-    const q = questions[currentQuestion];
+    const q =
+        questions[currentQuestion];
+
 
     questionNumber.innerText =
         `Question ${currentQuestion + 1} of ${questions.length}`;
 
+
     updateAnsweredCount();
+
 
     questionElement.innerText =
         q.question;
@@ -161,14 +220,17 @@ function showQuestion() {
             const button =
                 document.createElement("button");
 
-            button.innerText = answer;
+
+            button.innerText =
+                answer;
+
 
             button.classList.add(
                 "answer-btn"
             );
 
 
-            /* Show saved answer */
+            // SHOW SAVED ANSWER
 
             if (
                 userAnswers[currentQuestion]
@@ -198,20 +260,22 @@ function showQuestion() {
     );
 
 
-    /* Disable Previous on Question 1 */
+    // DISABLE PREVIOUS
+    // ON FIRST QUESTION
 
     previousBtn.disabled =
         currentQuestion === 0;
 
 
-    /* Last Question */
+    // LAST QUESTION
 
     if (
         currentQuestion ===
         questions.length - 1
     ) {
 
-        nextBtn.innerText = "Save";
+        nextBtn.innerText =
+            "Save";
 
     } else {
 
@@ -221,7 +285,7 @@ function showQuestion() {
 }
 
 
-/* SELECT ANSWER */
+// SELECT ANSWER
 
 function selectAnswer(index) {
 
@@ -241,6 +305,7 @@ function selectAnswer(index) {
             button.classList.remove(
                 "selected"
             );
+
         }
     );
 
@@ -254,13 +319,14 @@ function selectAnswer(index) {
 }
 
 
-/* UPDATE ANSWERED COUNT */
+// UPDATE ANSWERED COUNT
 
 function updateAnsweredCount() {
 
     const answered =
         userAnswers.filter(
-            answer => answer !== null
+            answer =>
+                answer !== null
         ).length;
 
 
@@ -269,7 +335,7 @@ function updateAnsweredCount() {
 }
 
 
-/* SAVE AND NEXT */
+// SAVE AND NEXT
 
 function saveAndNext() {
 
@@ -285,7 +351,7 @@ function saveAndNext() {
 }
 
 
-/* PREVIOUS QUESTION */
+// PREVIOUS QUESTION
 
 function previousQuestion() {
 
@@ -298,7 +364,7 @@ function previousQuestion() {
 }
 
 
-/* SUBMIT QUIZ */
+// SUBMIT QUIZ
 
 function submitQuiz() {
 
@@ -314,21 +380,25 @@ function submitQuiz() {
                 userAnswers[index];
 
 
-            /* CALCULATE SCORE */
+            // CALCULATE SCORE
 
             if (
-                userAnswer === q.correct
+                userAnswer ===
+                q.correct
             ) {
 
                 score++;
             }
 
 
-            /* CREATE ANSWER REVIEW */
+            // NOT ANSWERED
 
-            if (userAnswer === null) {
+            if (
+                userAnswer === null
+            ) {
 
                 reviewHTML += `
+
                     <div class="review-item">
 
                         <h3>
@@ -346,13 +416,21 @@ function submitQuiz() {
                         </p>
 
                     </div>
+
                 `;
 
-            } else if (
-                userAnswer === q.correct
+            }
+
+
+            // CORRECT ANSWER
+
+            else if (
+                userAnswer ===
+                q.correct
             ) {
 
                 reviewHTML += `
+
                     <div class="review-item">
 
                         <h3>
@@ -366,11 +444,18 @@ function submitQuiz() {
                         </p>
 
                     </div>
+
                 `;
 
-            } else {
+            }
+
+
+            // WRONG ANSWER
+
+            else {
 
                 reviewHTML += `
+
                     <div class="review-item">
 
                         <h3>
@@ -389,86 +474,102 @@ function submitQuiz() {
                         </p>
 
                     </div>
+
                 `;
             }
+
         }
     );
 
 
-    /* HIDE QUIZ */
+    // HIDE QUIZ SCREEN
 
-    quizScreen.classList.add("hide");
+    quizScreen.classList.add(
+        "hide"
+    );
 
 
-    /* SHOW RESULT */
+    // SHOW THANK YOU SCREEN
 
     resultScreen.classList.remove(
         "hide"
     );
 
 
-    /* DISPLAY SCORE */
+    // SHOW SCORE
 
     finalScore.innerText =
         `Your Score: ${score}/${questions.length}`;
 
 
-    /* REWARD BASED ON SCORE */
+    // REWARD BASED ON SCORE
 
     if (score === 5) {
 
         reward.innerText =
             "🏆 Excellent! Perfect Score!";
 
-    } else if (score === 4) {
+    }
+
+    else if (score === 4) {
 
         reward.innerText =
             "🥇 Very Good! Great Performance!";
 
-    } else if (score === 3) {
+    }
+
+    else if (score === 3) {
 
         reward.innerText =
             "🥈 Good Job! Keep Improving!";
 
-    } else if (score === 2) {
+    }
+
+    else if (score === 2) {
 
         reward.innerText =
             "🥉 Nice Try! Keep Practicing!";
 
-    } else {
+    }
+
+    else {
 
         reward.innerText =
             "📚 Keep Learning! You Can Do Better!";
+
     }
 
 
-    /* STORE REVIEW */
+    // SAVE REVIEW
 
     reviewContainer.innerHTML =
         reviewHTML;
+}
 
 
-    /* KEEP ANSWERS HIDDEN INITIALLY */
+// VIEW ANSWERS
 
-    reviewContainer.classList.add(
+function viewAnswers() {
+
+    resultScreen.classList.add(
         "hide"
     );
 
-    viewAnswersBtn.classList.remove(
+    answersScreen.classList.remove(
         "hide"
     );
 }
 
 
-/* VIEW ANSWERS */
+// BACK TO RESULT
 
-function viewAnswers() {
+function backToResult() {
 
-    reviewContainer.classList.remove(
+    answersScreen.classList.add(
         "hide"
     );
 
-    viewAnswersBtn.classList.add(
+    resultScreen.classList.remove(
         "hide"
     );
 }
