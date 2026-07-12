@@ -13,7 +13,7 @@ const questions = [
             "Hyper Text Markup Language"
         ],
 
-        correct: 1
+        correct: 3
     },
 
 
