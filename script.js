@@ -1,10 +1,7 @@
-// QUIZ QUESTIONS
-
 const questions = [
 
     {
-        question:
-            "What does HTML stand for?",
+        question: "What does HTML stand for?",
 
         answers: [
             "Home Text Markup Language",
@@ -16,10 +13,8 @@ const questions = [
         correct: 3
     },
 
-
     {
-        question:
-            "Which CSS property changes the text color?",
+        question: "Which CSS property changes the text color?",
 
         answers: [
             "font-color",
@@ -31,10 +26,8 @@ const questions = [
         correct: 2
     },
 
-
     {
-        question:
-            "Which keyword is used to declare a constant in JavaScript?",
+        question: "Which keyword is used to declare a constant in JavaScript?",
 
         answers: [
             "var",
@@ -46,10 +39,8 @@ const questions = [
         correct: 2
     },
 
-
     {
-        question:
-            "Which CSS property is used to make text bold?",
+        question: "Which CSS property is used to make text bold?",
 
         answers: [
             "font-style",
@@ -61,10 +52,8 @@ const questions = [
         correct: 1
     },
 
-
     {
-        question:
-            "Which method prints output in the browser console?",
+        question: "Which method prints output in the browser console?",
 
         answers: [
             "print()",
@@ -101,7 +90,6 @@ const resultScreen =
 const answersScreen =
     document.getElementById("answers-screen");
 
-
 const startBtn =
     document.getElementById("start-btn");
 
@@ -119,7 +107,6 @@ const viewAnswersBtn =
 
 const backResultBtn =
     document.getElementById("back-result-btn");
-
 
 const questionElement =
     document.getElementById("question");
@@ -145,10 +132,7 @@ const reviewContainer =
 
 // EVENT LISTENERS
 
-startBtn.addEventListener(
-    "click",
-    startQuiz
-);
+startBtn.addEventListener("click", startQuiz);
 
 previousBtn.addEventListener(
     "click",
@@ -220,17 +204,15 @@ function showQuestion() {
             const button =
                 document.createElement("button");
 
-
             button.innerText =
                 answer;
-
 
             button.classList.add(
                 "answer-btn"
             );
 
 
-            // SHOW SAVED ANSWER
+            // SHOW PREVIOUSLY SAVED ANSWER
 
             if (
                 userAnswers[currentQuestion]
@@ -260,14 +242,14 @@ function showQuestion() {
     );
 
 
-    // DISABLE PREVIOUS
+    // DISABLE PREVIOUS BUTTON
     // ON FIRST QUESTION
 
     previousBtn.disabled =
         currentQuestion === 0;
 
 
-    // LAST QUESTION
+    // CHANGE BUTTON ON LAST QUESTION
 
     if (
         currentQuestion ===
@@ -393,17 +375,14 @@ function submitQuiz() {
 
             // NOT ANSWERED
 
-            if (
-                userAnswer === null
-            ) {
+            if (userAnswer === null) {
 
                 reviewHTML += `
 
                     <div class="review-item">
 
                         <h3>
-                            ${index + 1}.
-                            ${q.question}
+                            ${index + 1}. ${q.question}
                         </h3>
 
                         <p class="wrong-answer">
@@ -416,7 +395,6 @@ function submitQuiz() {
                         </p>
 
                     </div>
-
                 `;
 
             }
@@ -425,8 +403,7 @@ function submitQuiz() {
             // CORRECT ANSWER
 
             else if (
-                userAnswer ===
-                q.correct
+                userAnswer === q.correct
             ) {
 
                 reviewHTML += `
@@ -434,8 +411,7 @@ function submitQuiz() {
                     <div class="review-item">
 
                         <h3>
-                            ${index + 1}.
-                            ${q.question}
+                            ${index + 1}. ${q.question}
                         </h3>
 
                         <p class="correct-answer">
@@ -444,7 +420,6 @@ function submitQuiz() {
                         </p>
 
                     </div>
-
                 `;
 
             }
@@ -459,8 +434,7 @@ function submitQuiz() {
                     <div class="review-item">
 
                         <h3>
-                            ${index + 1}.
-                            ${q.question}
+                            ${index + 1}. ${q.question}
                         </h3>
 
                         <p class="wrong-answer">
@@ -474,29 +448,25 @@ function submitQuiz() {
                         </p>
 
                     </div>
-
                 `;
             }
-
         }
     );
 
 
-    // HIDE QUIZ SCREEN
+    // HIDE QUIZ
 
-    quizScreen.classList.add(
-        "hide"
-    );
+    quizScreen.classList.add("hide");
 
 
-    // SHOW THANK YOU SCREEN
+    // SHOW RESULT SCREEN
 
     resultScreen.classList.remove(
         "hide"
     );
 
 
-    // SHOW SCORE
+    // DISPLAY SCORE
 
     finalScore.innerText =
         `Your Score: ${score}/${questions.length}`;
@@ -536,11 +506,10 @@ function submitQuiz() {
 
         reward.innerText =
             "📚 Keep Learning! You Can Do Better!";
-
     }
 
 
-    // SAVE REVIEW
+    // SAVE ANSWER REVIEW
 
     reviewContainer.innerHTML =
         reviewHTML;
@@ -551,9 +520,7 @@ function submitQuiz() {
 
 function viewAnswers() {
 
-    resultScreen.classList.add(
-        "hide"
-    );
+    resultScreen.classList.add("hide");
 
     answersScreen.classList.remove(
         "hide"
@@ -565,9 +532,7 @@ function viewAnswers() {
 
 function backToResult() {
 
-    answersScreen.classList.add(
-        "hide"
-    );
+    answersScreen.classList.add("hide");
 
     resultScreen.classList.remove(
         "hide"
